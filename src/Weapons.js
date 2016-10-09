@@ -7,9 +7,15 @@ const Weapons = (props) => {
 
   return (
     <div>
-      <img id="rock" src={rock} className="App-weapon" alt="rock" onClick={props.handleSelect} />
-      <img id="paper" src={paper} className="App-weapon" alt="paper" onClick={props.handleSelect} />
-      <img id="scissors" src={scissors} className="App-weapon" alt="scissors" onClick={props.handleSelect} />
+      <div className="App-rock">
+        <img id="rock" src={rock} className="App-weapon" alt="rock" onClick={props.handleSelect} />
+      </div>
+      <div className="App-paper">
+        <img id="paper" src={paper} className="App-weapon" alt="paper" onClick={props.handleSelect} />
+      </div>
+      <div className="App-scissors">
+        <img id="scissors" src={scissors} className="App-weapon" alt="scissors" onClick={props.handleSelect} />
+      </div>
     </div>
   )
 }
