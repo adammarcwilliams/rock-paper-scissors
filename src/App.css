@@ -1,3 +1,77 @@
+html {
+  height: 100vh;
+  background: #d2ff00;
+  background: linear-gradient(45deg, #d2ff00 0%,#0ce2e8 100%);
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
 .App {
   text-align: center;
+  max-width: 60vh;
+  margin-left: auto;
+  margin-right: auto;  
+}
+
+.App-tagline {
+  color: #7000B2;
+  font-weight: 900;
+  font-size: 3em;
+}
+
+.App-weapon-box {
+  display: flex;
+  justify-content: center;
+}
+
+.App-weapon {
+  display: inline-block;
+  margin: 1em;
+}
+
+.App-weapon-label {
+  color: #7000B2;
+  font-weight: 500;
+  font-size: 2em;
+  margin-top: 0;
+}
+
+.App-weapon a {
+  color: #7000B2;
+}
+
+.App-weapon a:hover {
+  color: #A000FF;
+}
+
+.icon-rock,
+.icon-paper,
+.icon-scissors {
+  font-size: 10em;
+}
+
+.App-result {
+  color: #7000B2;
+  font-size: 2em;
+  font-weight: 900;
+}
+
+.App-scores-box {
+  display: flex;
+  justify-content: space-between;
+}
+
+.App-scores--label {
+  color: #7000B2;
+  font-size: 1.5em;
+  margin: 1em;
+}
+
+.App-scores--counter {
+  color: #7000B2;
+  font-size: 3em;
+  font-weight: 900;
+  margin: 1em;
 }

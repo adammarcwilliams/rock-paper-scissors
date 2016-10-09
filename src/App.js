@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+import TweenMax from 'gsap'
 import Weapons from './Weapons'
 import Scores from './Scores'
 import './App.css'
+import './fonts.css'
 
 class App extends Component {
   constructor(props) {
@@ -12,6 +14,14 @@ class App extends Component {
       result: "Select your weapon..."
     }
     this.handleSelect = this.handleSelect.bind(this)
+  }
+  componentDidMount () {
+    const TAGLINE = document.getElementById('tagline')
+    let duration = 1
+    TweenMax.from(TAGLINE, duration, {x: 100})
+    console.log(TAGLINE)
+
+
   }
   handleSelect (e) {
     let weaponSelected = e.target.id
@@ -49,10 +59,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1>Let's settle this like adults!</h1>
+        <h1 id="tagline" className="App-tagline">Let's settle this like adults!</h1>
         <Weapons handleSelect={this.handleSelect}/>
-        <Scores
-          result={this.state.result}
+        <p className="App-result">{this.state.result}</p>
+        <Scores          
           playerScore={this.state.playerScore}
           botScore={this.state.botScore}/>
       </div>
