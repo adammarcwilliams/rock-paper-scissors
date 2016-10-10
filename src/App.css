@@ -1,40 +1,37 @@
-html {
+.App-box {
+  display: flex;
   height: 100vh;
+  justify-content: center;
+  align-items: center;
   background: #d2ff00;
   background: linear-gradient(45deg, #d2ff00 0%,#0ce2e8 100%);
-}
-
-body {
   font-family: 'Roboto', sans-serif;
 }
 
 .App {
   text-align: center;
-  max-width: 60vh;
-  margin-left: auto;
-  margin-right: auto;  
+  max-width: 100%;
 }
 
 .App-tagline {
-  color: #7000B2;
-  font-weight: 900;
-  font-size: 3em;
+  display: none;
 }
 
 .App-weapon-box {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .App-weapon {
-  display: inline-block;
-  margin: 1em;
+  display: block;
+  margin: 0.5em;
 }
 
 .App-weapon-label {
   color: #7000B2;
   font-weight: 500;
-  font-size: 2em;
+  font-size: 1.3em;
   margin-top: 0;
 }
 
@@ -49,29 +46,90 @@ body {
 .icon-rock,
 .icon-paper,
 .icon-scissors {
-  font-size: 10em;
+  font-size: 7em;
 }
 
 .App-result {
   color: #7000B2;
-  font-size: 2em;
+  font-size: 1.3em;
   font-weight: 900;
+  margin-top: 0px;
 }
 
 .App-scores-box {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .App-scores--label {
   color: #7000B2;
   font-size: 1.5em;
   margin: 1em;
+  margin-top: 0;
 }
 
 .App-scores--counter {
   color: #7000B2;
   font-size: 3em;
   font-weight: 900;
-  margin: 1em;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
+/* MEDIA QUERIES */
+
+@media screen and (min-width: 480px) {
+  .App-tagline {
+    display: inline-block;
+    color: #7000B2;
+    font-weight: 900;
+    font-size: 3em;
+    visibility: hidden; /* FOR GSAP ANIMATION */
+  }
+  .App-weapon {
+    margin: 1.5em;
+    position: relative; /* KEEP AN EYE ON THIS */
+  }
+
+  .icon-rock,
+  .icon-paper,
+  .icon-scissors {
+    font-size: 10em;
+  }
+
+  .robotEyes {
+    position: absolute;
+    color: #7000B2;
+    font-size: 4em;
+    display: inline-block;
+    top: -5px;
+    visibility: hidden; /* FOR GSAP ANIMATION */
+  }
+
+  .robotEyeLeft {
+    left: 32px;
+    transform: rotate(90deg);
+  }
+
+  .robotEyeRight {
+    left: 102px;
+    transform: rotate(-90deg);
+  }
+
+  .App-weapon-label {
+    visibility: hidden; /* FOR GSAP ANIMATION */
+  }
+
+  .App-result {
+    font-size: 2em;
+    visibility: hidden; /* FOR GSAP ANIMATION */
+  }
+
+  .App-scores-box {
+    visibility: hidden; /* FOR GSAP ANIMATION */
+  }
+
+  
+
 }

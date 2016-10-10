@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import TweenMax from 'gsap'
+import TweenMax, { TimelineMax, Elastic, Linear } from 'gsap'
 import Weapons from './Weapons'
 import Scores from './Scores'
 import './App.css'
@@ -17,9 +17,39 @@ class App extends Component {
   }
   componentDidMount () {
     const TAGLINE = document.getElementById('tagline')
-    let duration = 1
-    TweenMax.from(TAGLINE, duration, {x: 100})
-    console.log(TAGLINE)
+    const ROCK = document.getElementById('rockDiv')
+    const PAPER = document.getElementById('paperDiv')
+    const SCISSORS = document.getElementById('scissorsDiv')
+    const ROBOT_EYES = document.getElementsByClassName('robotEyes')
+    const ROBOT_EYE_LEFT = document.getElementById('robotEyeLeft')
+    const ROBOT_EYE_RIGHT = document.getElementById('robotEyeRight')
+    const BACKGROUND = document.getElementById('background')
+    const RESULT = document.getElementById('result')
+    const SCOREBOX = document.getElementById('scoreBox')
+    const INTRO_TL = new TimelineMax()
+
+
+
+    INTRO_TL.fromTo(ROCK, 1, {x: -1500, y: -200}, {x: 200, y:-200, ease:Elastic.easeInOut})
+            .from(PAPER, 1, {x: -1500, ease:Elastic.easeInOut}, .1)
+            .fromTo(SCISSORS, 1, {x: -1500, y: 200}, {x: -200, y: 200, ease:Elastic.easeInOut, onComplete: eyesAnimation}, .2)
+            .to(ROBOT_EYES, .5, {autoAlpha: 1}, 1)
+
+    function eyesAnimation() {
+      const EYES_TL = new TimelineMax({repeat: 1, yoyo:true})
+      EYES_TL.to(ROBOT_EYE_LEFT, .1, {css: {transform: 'rotate(110deg)'}})
+            .to(ROBOT_EYE_RIGHT, .1, {css: {transform: 'rotate(-110deg)'}}, 0)
+            .to(BACKGROUND, .1, {css: {background: 'linear-gradient(45deg, #7000B2 0%,#E8600C 100%)'}, onComplete: animateOut}, .1)
+    }
+    function animateOut() {
+      const ANIMATE_OUT = new TimelineMax()
+      ANIMATE_OUT.to(ROBOT_EYES, 1, {autoAlpha: 0})
+                .to(ROCK, 0.5, {x: 0, y:0, ease:Elastic.easeInOut})
+                .to(SCISSORS, 0.5, {x: 0, y:0, ease:Elastic.easeInOut})
+                .to(TAGLINE, 0.5, {autoAlpha: 1, ease:Linear.easeIn})
+                .to([RESULT, SCOREBOX], 1, {autoAlpha: 1, ease:Linear.easeIn})
+    }
+
 
 
   }
@@ -58,13 +88,15 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
-        <h1 id="tagline" className="App-tagline">Let's settle this like adults!</h1>
-        <Weapons handleSelect={this.handleSelect}/>
-        <p className="App-result">{this.state.result}</p>
-        <Scores          
-          playerScore={this.state.playerScore}
-          botScore={this.state.botScore}/>
+      <div id="background" className="App-box">
+        <div className="App">
+          <h1 id="tagline" className="App-tagline">Let's settle this like adults!</h1>
+          <Weapons handleSelect={this.handleSelect}/>
+          <p id="result" className="App-result">{this.state.result}</p>
+          <Scores
+            playerScore={this.state.playerScore}
+            botScore={this.state.botScore}/>
+        </div>
       </div>
     )
   }
