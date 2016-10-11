@@ -9,13 +9,13 @@ import './App.css'
 import './fonts.css'
 
 class App extends Component {
-  
-  constructor(props) {
+
+  constructor (props) {
     super(props)
     this.state = {
       playerScore: 0,
       botScore: 0,
-      result: "Select your weapon..."
+      result: 'Select your weapon...'
     }
     // Bind methods on class so they don't loose their context when passed as props
     this.handleSelect = this.handleSelect.bind(this)
@@ -23,7 +23,7 @@ class App extends Component {
     // Create a delay for botSelect animation before winner is revealed
     this.calculateWinner = _.debounce(this.calculateWinner, 1000)
   }
-  
+
   componentDidMount () {
     // Create an animated intro sequence that runs on large screens only
     const TAGLINE = document.getElementById('tagline')
@@ -37,47 +37,49 @@ class App extends Component {
     const RESULT = document.getElementById('result')
     const SCOREBOX = document.getElementById('scoreBox')
 
-    if (window.innerWidth > 700) {
+    function animateIn () {
+      const INTRO_TL = new TimelineMax()
+      INTRO_TL.fromTo(ROCK, 1, {x: -1500, y: -200}, {x: 200, y: -200, ease: Elastic.easeInOut})
+              .from(PAPER, 1, {x: -1500, ease: Elastic.easeInOut}, 0.1)
+              .fromTo(SCISSORS, 1, {x: -1500, y: 200}, {x: -200, y: 200, ease: Elastic.easeInOut}, 0.2)
+              .to(ROBOT_EYES, 0.5, {autoAlpha: 1, onComplete: eyesAnimation}, 1)
+    }
 
-      function animateIn() {
-        const INTRO_TL = new TimelineMax()
-        INTRO_TL.fromTo(ROCK, 1, {x: -1500, y: -200}, {x: 200, y:-200, ease:Elastic.easeInOut})
-                .from(PAPER, 1, {x: -1500, ease:Elastic.easeInOut}, .1)
-                .fromTo(SCISSORS, 1, {x: -1500, y: 200}, {x: -200, y: 200, ease:Elastic.easeInOut}, .2)
-                .to(ROBOT_EYES, .5, {autoAlpha: 1, onComplete: eyesAnimation}, 1)
-      }
-      function eyesAnimation() {
-        const TAUNT = new Howl({
-          src: [tauntMP3]
-        })
-        const EYES_TL = new TimelineMax({repeat: 1, yoyo:true})
-        TAUNT.play()
-        EYES_TL.to(ROBOT_EYE_LEFT, .1, {css: {transform: 'rotate(110deg)'}})
-                .to(ROBOT_EYE_RIGHT, .1, {css: {transform: 'rotate(-110deg)'}}, 0)
-                .to(BACKGROUND, .1, {css: {background: 'linear-gradient(45deg, #7000B2 0%,#E8600C 100%)'}, onComplete: animateOut}, .1)
-      }
-      function animateOut() {
-        const ANIMATE_OUT = new TimelineMax()
-        ANIMATE_OUT.to(ROBOT_EYES, 0.5, {autoAlpha: 0})
-                    .to(ROCK, 0.5, {x: 0, y:0, ease:Elastic.easeInOut})
-                    .to(SCISSORS, 0.5, {x: 0, y:0, ease:Elastic.easeInOut})
-                    .to(TAGLINE, 0.5, {autoAlpha: 1, ease:Linear.easeIn})
-                    .to([RESULT, SCOREBOX], 1, {autoAlpha: 1, ease:Linear.easeIn})
-      }
+    function eyesAnimation () {
+      const TAUNT = new Howl({
+        src: [tauntMP3]
+      })
+      const EYES_TL = new TimelineMax({repeat: 1, yoyo: true})
+      TAUNT.play()
+      EYES_TL.to(ROBOT_EYE_LEFT, 0.1, {css: {transform: 'rotate(110deg)'}})
+              .to(ROBOT_EYE_RIGHT, 0.1, {css: {transform: 'rotate(-110deg)'}}, 0)
+              .to(BACKGROUND, 0.1, {css: {background: 'linear-gradient(45deg, #7000B2 0%,#E8600C 100%)'}, onComplete: animateOut}, 0.1)
+    }
+
+    function animateOut () {
+      const ANIMATE_OUT = new TimelineMax()
+      ANIMATE_OUT.to(ROBOT_EYES, 0.5, {autoAlpha: 0})
+                  .to(ROCK, 0.5, {x: 0, y: 0, ease: Elastic.easeInOut})
+                  .to(SCISSORS, 0.5, {x: 0, y: 0, ease: Elastic.easeInOut})
+                  .to(TAGLINE, 0.5, {autoAlpha: 1, ease: Linear.easeIn})
+                  .to([RESULT, SCOREBOX], 1, {autoAlpha: 1, ease: Linear.easeIn})
+    }
+
+    if (window.innerWidth > 700) {
       animateIn()
     }
   }
-  
+
   handleSelect (e) {
     let weaponSelected = e.target.id
     this.botSelect(weaponSelected)
   }
-  
+
   handleReset () {
     this.setState({
       playerScore: 0,
       botScore: 0,
-      result: "Select your weapon..."
+      result: 'Select your weapon...'
     })
   }
 
@@ -86,9 +88,9 @@ class App extends Component {
     let randomNumber = () => Math.floor(Math.random() * 3)
     let botWeapon = WEAPONS[randomNumber()]
     this.calculateWinner(playerWeapon, botWeapon)
-    
+
     // Determine the bots weapon of choice and then animate element accordingly
-    function botSelectElement(botWeapon) {
+    function botSelectElement (botWeapon) {
       const ROCK = document.getElementById('rockDiv')
       const PAPER = document.getElementById('paperDiv')
       const SCISSORS = document.getElementById('scissorsDiv')
@@ -103,46 +105,47 @@ class App extends Component {
       if (botWeapon === 'scissors') {
         botSelectAnimate(SCISSORS)
       }
-      function botSelectAnimate(weapon) {
+
+      function botSelectAnimate (weapon) {
         const BOT_SELECT_TL = new TimelineMax()
-        BOT_SELECT_TL.to(WEAPON_BOX, .1, {repeat: 5, yoyo: true, y: 5, ease:Linear.easeInOut})
-                      .to(weapon, .2, {repeat: 1, yoyo: true, scale: 2, ease:Elastic.easeInOut})
+        BOT_SELECT_TL.to(WEAPON_BOX, 0.1, {repeat: 5, yoyo: true, y: 5, ease: Linear.easeInOut})
+                      .to(weapon, 0.2, {repeat: 1, yoyo: true, scale: 2, ease: Elastic.easeInOut})
       }
     }
     botSelectElement(botWeapon)
   }
-  
+
   calculateWinner (playerWeapon, botWeapon) {
     if (playerWeapon === botWeapon) {
-        this.setState({result: `Bot chose ${botWeapon}, It's a draw`})
+      this.setState({result: `Bot chose ${botWeapon}, It's a draw`})
     } else if (playerWeapon === 'rock' && botWeapon === 'paper') {
-        this.setState({result: `Bot chose ${botWeapon}, You Loose`})
-        this.setState({botScore: this.state.botScore + 1})
+      this.setState({result: `Bot chose ${botWeapon}, You Loose`})
+      this.setState({botScore: this.state.botScore + 1})
     } else if (playerWeapon === 'rock' && botWeapon === 'scissors') {
-        this.setState({result: `Bot chose ${botWeapon}, You Win`})
-        this.setState({playerScore: this.state.playerScore + 1})
+      this.setState({result: `Bot chose ${botWeapon}, You Win`})
+      this.setState({playerScore: this.state.playerScore + 1})
     } else if (playerWeapon === 'paper' && botWeapon === 'rock') {
-        this.setState({result: `Bot chose ${botWeapon}, You Win`})
-        this.setState({playerScore: this.state.playerScore + 1})
+      this.setState({result: `Bot chose ${botWeapon}, You Win`})
+      this.setState({playerScore: this.state.playerScore + 1})
     } else if (playerWeapon === 'paper' && botWeapon === 'scissors') {
-        this.setState({result: `Bot chose ${botWeapon}, You Loose`})
-        this.setState({botScore: this.state.botScore + 1})
+      this.setState({result: `Bot chose ${botWeapon}, You Loose`})
+      this.setState({botScore: this.state.botScore + 1})
     } else if (playerWeapon === 'scissors' && botWeapon === 'rock') {
-        this.setState({result: `Bot chose ${botWeapon}, You Loose`})
-        this.setState({botScore: this.state.botScore + 1})
+      this.setState({result: `Bot chose ${botWeapon}, You Loose`})
+      this.setState({botScore: this.state.botScore + 1})
     } else if (playerWeapon === 'scissors' && botWeapon === 'paper') {
-        this.setState({result: `Bot chose ${botWeapon}, You Win`})
-        this.setState({playerScore: this.state.playerScore + 1})
+      this.setState({result: `Bot chose ${botWeapon}, You Win`})
+      this.setState({playerScore: this.state.playerScore + 1})
     }
   }
-  
-  render() {
+
+  render () {
     return (
-      <div id="background" className="App-box">
-        <div className="App">
-          <h1 id="tagline" className="App-tagline">Let's settle this like adults!</h1>
+      <div id='background' className='App-box'>
+        <div className='App'>
+          <h1 id='tagline' className='App-tagline'>Let's settle this like adults!</h1>
           <Weapons handleSelect={this.handleSelect}/>
-          <p id="result" className="App-result">{this.state.result}</p>
+          <p id='result' className='App-result'>{this.state.result}</p>
           <Scores
             handleReset={this.handleReset}
             playerScore={this.state.playerScore}
