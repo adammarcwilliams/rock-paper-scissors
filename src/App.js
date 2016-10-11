@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { TweenMax, TimelineMax, Elastic, Linear } from 'gsap'
+import { Howl } from 'howler'
 import * as _ from 'underscore'
 import Weapons from './Weapons'
 import Scores from './Scores'
+import tauntMP3 from './assets/taunt.mp3'
 import './App.css'
 import './fonts.css'
 
@@ -40,7 +42,11 @@ class App extends Component {
                 .to(ROBOT_EYES, .5, {autoAlpha: 1, onComplete: eyesAnimation}, 1)
       }
       function eyesAnimation() {
+        const TAUNT = new Howl({
+          src: [tauntMP3]
+        })
         const EYES_TL = new TimelineMax({repeat: 1, yoyo:true})
+        TAUNT.play()
         EYES_TL.to(ROBOT_EYE_LEFT, .1, {css: {transform: 'rotate(110deg)'}})
                 .to(ROBOT_EYE_RIGHT, .1, {css: {transform: 'rotate(-110deg)'}}, 0)
                 .to(BACKGROUND, .1, {css: {background: 'linear-gradient(45deg, #7000B2 0%,#E8600C 100%)'}, onComplete: animateOut}, .1)
