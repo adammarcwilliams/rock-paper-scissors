@@ -24,7 +24,7 @@
 }
 
 .App-weapon {
-  display: block;
+  display: inline-block;
   margin: 0.5em;
 }
 
@@ -49,6 +49,10 @@
   font-size: 7em;
 }
 
+.robotEyes {
+  display: none;
+}
+
 .App-result {
   color: #7000B2;
   font-size: 1.3em;
@@ -60,6 +64,11 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+}
+
+.App-scores-col--reset {
+  order: 1;
+  flex-grow: 3;
 }
 
 .App-scores--label {
@@ -77,9 +86,49 @@
   margin-bottom: 0.5em;
 }
 
+.App-scores-reset {
+  color: #7000B2;
+  text-decoration: none;
+  font-size: 1.5em;
+
+}
+
+.App-scores-reset:hover {
+  color: #A000FF;
+}
+
 /* MEDIA QUERIES */
+@media screen and (min-width: 700px) { /* FOR GSAP ANIMATION */
+
+  .robotEyes {
+    position: absolute;
+    color: #7000B2;
+    font-size: 4em;
+    display: inline-block;
+    top: -5px;
+    visibility: hidden;
+  }
+
+  .robotEyeLeft {
+    left: 32px;
+    transform: rotate(90deg);
+  }
+
+  .robotEyeRight {
+    left: 102px;
+    transform: rotate(-90deg);
+  }
+}
+
+@media screen and (min-width: 406px) {
+
+  .App-scores-col--reset {
+    order: 0;
+  }
+}
 
 @media screen and (min-width: 480px) {
+
   .App-tagline {
     display: inline-block;
     color: #7000B2;
@@ -98,25 +147,6 @@
     font-size: 10em;
   }
 
-  .robotEyes {
-    position: absolute;
-    color: #7000B2;
-    font-size: 4em;
-    display: inline-block;
-    top: -5px;
-    visibility: hidden; /* FOR GSAP ANIMATION */
-  }
-
-  .robotEyeLeft {
-    left: 32px;
-    transform: rotate(90deg);
-  }
-
-  .robotEyeRight {
-    left: 102px;
-    transform: rotate(-90deg);
-  }
-
   .App-weapon-label {
     visibility: hidden; /* FOR GSAP ANIMATION */
   }
@@ -129,7 +159,4 @@
   .App-scores-box {
     visibility: hidden; /* FOR GSAP ANIMATION */
   }
-
-  
-
 }
