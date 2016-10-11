@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TweenMax, TimelineMax, Elastic, Linear } from 'gsap'
+import { TimelineMax, Elastic, Linear } from 'gsap'
 import { Howl } from 'howler'
 import * as _ from 'underscore'
 import Weapons from './Weapons'
@@ -9,6 +9,7 @@ import './App.css'
 import './fonts.css'
 
 class App extends Component {
+  
   constructor(props) {
     super(props)
     this.state = {
@@ -16,11 +17,15 @@ class App extends Component {
       botScore: 0,
       result: "Select your weapon..."
     }
+    // Bind methods on class so they don't loose their context when passed as props
     this.handleSelect = this.handleSelect.bind(this)
     this.handleReset = this.handleReset.bind(this)
+    // Create a delay for botSelect animation before winner is revealed
     this.calculateWinner = _.debounce(this.calculateWinner, 1000)
   }
+  
   componentDidMount () {
+    // Create an animated intro sequence that runs on large screens only
     const TAGLINE = document.getElementById('tagline')
     const ROCK = document.getElementById('rockDiv')
     const PAPER = document.getElementById('paperDiv')
@@ -62,10 +67,12 @@ class App extends Component {
       animateIn()
     }
   }
+  
   handleSelect (e) {
     let weaponSelected = e.target.id
     this.botSelect(weaponSelected)
   }
+  
   handleReset () {
     this.setState({
       playerScore: 0,
@@ -79,7 +86,8 @@ class App extends Component {
     let randomNumber = () => Math.floor(Math.random() * 3)
     let botWeapon = WEAPONS[randomNumber()]
     this.calculateWinner(playerWeapon, botWeapon)
-
+    
+    // Determine the bots weapon of choice and then animate element accordingly
     function botSelectElement(botWeapon) {
       const ROCK = document.getElementById('rockDiv')
       const PAPER = document.getElementById('paperDiv')
@@ -103,6 +111,7 @@ class App extends Component {
     }
     botSelectElement(botWeapon)
   }
+  
   calculateWinner (playerWeapon, botWeapon) {
     if (playerWeapon === botWeapon) {
         this.setState({result: `Bot chose ${botWeapon}, It's a draw`})
@@ -126,6 +135,7 @@ class App extends Component {
         this.setState({playerScore: this.state.playerScore + 1})
     }
   }
+  
   render() {
     return (
       <div id="background" className="App-box">

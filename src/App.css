@@ -1,3 +1,5 @@
+/* APP CONTAINER - MOBILE FIRST */
+
 .App-box {
   display: flex;
   height: 100vh;
@@ -16,6 +18,15 @@
 .App-tagline {
   display: none;
 }
+
+.App-result {
+  color: #7000B2;
+  font-size: 1.3em;
+  font-weight: 900;
+  margin-top: 0px;
+}
+
+/* WEAPONS COMPONENT - MOBILE FIRST */
 
 .App-weapon-box {
   display: flex;
@@ -53,12 +64,7 @@
   display: none;
 }
 
-.App-result {
-  color: #7000B2;
-  font-size: 1.3em;
-  font-weight: 900;
-  margin-top: 0px;
-}
+/* SCORES COMPONENT - MOBILE FIRST */
 
 .App-scores-box {
   display: flex;
@@ -98,6 +104,7 @@
 }
 
 /* MEDIA QUERIES */
+
 @media screen and (min-width: 700px) { /* FOR GSAP ANIMATION */
 
   .robotEyes {
