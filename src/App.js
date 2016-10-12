@@ -5,6 +5,10 @@ import * as _ from 'underscore'
 import Weapons from './Weapons'
 import Scores from './Scores'
 import tauntMP3 from './assets/taunt.mp3'
+import winMP3 from './assets/win.mp3'
+import looseMP3 from './assets/loose.mp3'
+import drawMP3 from './assets/draw.mp3'
+import magnetMP3 from './assets/magnet.mp3'
 import './App.css'
 import './fonts.css'
 
@@ -36,6 +40,12 @@ class App extends Component {
     const BACKGROUND = document.getElementById('background')
     const RESULT = document.getElementById('result')
     const SCOREBOX = document.getElementById('scoreBox')
+    const WEAPON_LABELS = document.getElementsByClassName('App-weapon-label')
+    const TAUNT = new Howl({src: [tauntMP3]})
+
+    function playTaunt () {
+      TAUNT.play()
+    }
 
     function animateIn () {
       const INTRO_TL = new TimelineMax()
@@ -46,11 +56,12 @@ class App extends Component {
     }
 
     function eyesAnimation () {
-      const TAUNT = new Howl({
-        src: [tauntMP3]
+      const EYES_TL = new TimelineMax({
+        repeat: 1,
+        yoyo: true,
+        onStart: playTaunt
       })
-      const EYES_TL = new TimelineMax({repeat: 1, yoyo: true})
-      TAUNT.play()
+
       EYES_TL.to(ROBOT_EYE_LEFT, 0.1, {css: {transform: 'rotate(110deg)'}})
               .to(ROBOT_EYE_RIGHT, 0.1, {css: {transform: 'rotate(-110deg)'}}, 0)
               .to(BACKGROUND, 0.1, {css: {background: 'linear-gradient(45deg, #7000B2 0%,#E8600C 100%)'}, onComplete: animateOut}, 0.1)
@@ -62,7 +73,7 @@ class App extends Component {
                   .to(ROCK, 0.5, {x: 0, y: 0, ease: Elastic.easeInOut})
                   .to(SCISSORS, 0.5, {x: 0, y: 0, ease: Elastic.easeInOut})
                   .to(TAGLINE, 0.5, {autoAlpha: 1, ease: Linear.easeIn})
-                  .to([RESULT, SCOREBOX], 1, {autoAlpha: 1, ease: Linear.easeIn})
+                  .to([RESULT, SCOREBOX, WEAPON_LABELS], 1, {autoAlpha: 1, ease: Linear.easeIn})
     }
 
     if (window.innerWidth > 700) {
@@ -87,7 +98,6 @@ class App extends Component {
     const WEAPONS = ['rock', 'paper', 'scissors']
     let randomNumber = () => Math.floor(Math.random() * 3)
     let botWeapon = WEAPONS[randomNumber()]
-    this.calculateWinner(playerWeapon, botWeapon)
 
     // Determine the bots weapon of choice and then animate element accordingly
     function botSelectElement (botWeapon) {
@@ -95,6 +105,11 @@ class App extends Component {
       const PAPER = document.getElementById('paperDiv')
       const SCISSORS = document.getElementById('scissorsDiv')
       const WEAPON_BOX = document.getElementById('weaponBox')
+      const MAGNET = new Howl({src: [magnetMP3]})
+
+      function playMagnet () {
+        MAGNET.play()
+      }
 
       if (botWeapon === 'rock') {
         botSelectAnimate(ROCK)
@@ -107,35 +122,61 @@ class App extends Component {
       }
 
       function botSelectAnimate (weapon) {
-        const BOT_SELECT_TL = new TimelineMax()
+        const BOT_SELECT_TL = new TimelineMax({
+          onStart: playMagnet
+        })
         BOT_SELECT_TL.to(WEAPON_BOX, 0.1, {repeat: 5, yoyo: true, y: 5, ease: Linear.easeInOut})
                       .to(weapon, 0.2, {repeat: 1, yoyo: true, scale: 2, ease: Elastic.easeInOut})
       }
     }
     botSelectElement(botWeapon)
+    this.calculateWinner(playerWeapon, botWeapon)
   }
 
   calculateWinner (playerWeapon, botWeapon) {
+    const WIN = new Howl({src: [winMP3]})
+    const LOOSE = new Howl({src: [looseMP3]})
+    const DRAW = new Howl({src: [drawMP3]})
+
+    function playWin () {
+      WIN.play()
+    }
+
+    function playLoose () {
+      LOOSE.play()
+    }
+
+    function playDraw () {
+      DRAW.play()
+    }
+
     if (playerWeapon === botWeapon) {
       this.setState({result: `Bot chose ${botWeapon}, It's a draw`})
+      playDraw()
     } else if (playerWeapon === 'rock' && botWeapon === 'paper') {
       this.setState({result: `Bot chose ${botWeapon}, You Loose`})
       this.setState({botScore: this.state.botScore + 1})
+      playLoose()
     } else if (playerWeapon === 'rock' && botWeapon === 'scissors') {
       this.setState({result: `Bot chose ${botWeapon}, You Win`})
       this.setState({playerScore: this.state.playerScore + 1})
+      playWin()
     } else if (playerWeapon === 'paper' && botWeapon === 'rock') {
       this.setState({result: `Bot chose ${botWeapon}, You Win`})
       this.setState({playerScore: this.state.playerScore + 1})
+      playWin()
     } else if (playerWeapon === 'paper' && botWeapon === 'scissors') {
       this.setState({result: `Bot chose ${botWeapon}, You Loose`})
       this.setState({botScore: this.state.botScore + 1})
+      playLoose()
     } else if (playerWeapon === 'scissors' && botWeapon === 'rock') {
       this.setState({result: `Bot chose ${botWeapon}, You Loose`})
       this.setState({botScore: this.state.botScore + 1})
+      playLoose()
     } else if (playerWeapon === 'scissors' && botWeapon === 'paper') {
       this.setState({result: `Bot chose ${botWeapon}, You Win`})
       this.setState({playerScore: this.state.playerScore + 1})
+      playWin()
     }
   }
 
