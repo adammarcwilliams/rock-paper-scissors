@@ -2,26 +2,27 @@ import React, { Component } from 'react'
 import { TimelineMax, Elastic, Linear } from 'gsap'
 import { Howl } from 'howler'
 import * as _ from 'underscore'
-import Weapons from './Weapons'
-import Scores from './Scores'
-import tauntMP3 from './assets/taunt.mp3'
-import winMP3 from './assets/win.mp3'
-import looseMP3 from './assets/loose.mp3'
-import drawMP3 from './assets/draw.mp3'
-import magnetMP3 from './assets/magnet.mp3'
+import Weapons from '../components/Weapons'
+import Result from '../components/Result'
+import Scores from '../components/Scores'
+import tauntMP3 from '../assets/taunt.mp3'
+import winMP3 from '../assets/win.mp3'
+import looseMP3 from '../assets/loose.mp3'
+import drawMP3 from '../assets/draw.mp3'
+import magnetMP3 from '../assets/magnet.mp3'
 import './App.css'
-import './fonts.css'
+import '../fonts/fonts.css'
 
 class App extends Component {
 
-  constructor (props) {
-    super(props)
+  constructor () {
+    super()
     this.state = {
       playerScore: 0,
       botScore: 0,
       result: 'Select your weapon...'
     }
-    // Bind methods on class so they don't loose their context when passed as props
+    // Bind App context to methods so they can be passed as props
     this.handleSelect = this.handleSelect.bind(this)
     this.handleReset = this.handleReset.bind(this)
     // Create a delay for botSelect animation before winner is revealed
@@ -129,8 +130,8 @@ class App extends Component {
                       .to(weapon, 0.2, {repeat: 1, yoyo: true, scale: 2, ease: Elastic.easeInOut})
       }
     }
-    botSelectElement(botWeapon)
     this.calculateWinner(playerWeapon, botWeapon)
+    botSelectElement(botWeapon)
   }
 
   calculateWinner (playerWeapon, botWeapon) {
@@ -154,7 +155,7 @@ class App extends Component {
       this.setState({result: `Bot chose ${botWeapon}, It's a draw`})
       playDraw()
     } else if (playerWeapon === 'rock' && botWeapon === 'paper') {
-      this.setState({result: `Bot chose ${botWeapon}, You Loose`})
+      this.setState({result: `Bot chose ${botWeapon}, You Lose`})
       this.setState({botScore: this.state.botScore + 1})
       playLoose()
     } else if (playerWeapon === 'rock' && botWeapon === 'scissors') {
@@ -166,11 +167,11 @@ class App extends Component {
       this.setState({playerScore: this.state.playerScore + 1})
       playWin()
     } else if (playerWeapon === 'paper' && botWeapon === 'scissors') {
-      this.setState({result: `Bot chose ${botWeapon}, You Loose`})
+      this.setState({result: `Bot chose ${botWeapon}, You Lose`})
       this.setState({botScore: this.state.botScore + 1})
       playLoose()
     } else if (playerWeapon === 'scissors' && botWeapon === 'rock') {
-      this.setState({result: `Bot chose ${botWeapon}, You Loose`})
+      this.setState({result: `Bot chose ${botWeapon}, You Lose`})
       this.setState({botScore: this.state.botScore + 1})
       playLoose()
     } else if (playerWeapon === 'scissors' && botWeapon === 'paper') {
@@ -186,7 +187,7 @@ class App extends Component {
         <div className='App'>
           <h1 id='tagline' className='App-tagline'>Let's settle this like adults!</h1>
           <Weapons handleSelect={this.handleSelect}/>
-          <p id='result' className='App-result'>{this.state.result}</p>
+          <Result result={this.state.result}/>
           <Scores
             handleReset={this.handleReset}
             playerScore={this.state.playerScore}
