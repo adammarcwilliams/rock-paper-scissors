@@ -35,6 +35,8 @@ class App extends Component {
     const ROCK = document.getElementById('rockDiv')
     const PAPER = document.getElementById('paperDiv')
     const SCISSORS = document.getElementById('scissorsDiv')
+    const LIZARD = document.getElementById('lizardDiv')
+    const SPOCK = document.getElementById('spockDiv')
     const ROBOT_EYES = document.getElementsByClassName('robotEyes')
     const ROBOT_EYE_LEFT = document.getElementById('robotEyeLeft')
     const ROBOT_EYE_RIGHT = document.getElementById('robotEyeRight')
@@ -74,7 +76,7 @@ class App extends Component {
                   .to(ROCK, 0.5, {x: 0, y: 0, ease: Elastic.easeInOut})
                   .to(SCISSORS, 0.5, {x: 0, y: 0, ease: Elastic.easeInOut})
                   .to(TAGLINE, 0.5, {autoAlpha: 1, ease: Linear.easeIn})
-                  .to([RESULT, SCOREBOX, WEAPON_LABELS], 1, {autoAlpha: 1, ease: Linear.easeIn})
+                  .to([RESULT, SCOREBOX, WEAPON_LABELS, LIZARD, SPOCK], 1, {autoAlpha: 1, ease: Linear.easeIn})
     }
 
     if (window.innerWidth > 700) {
@@ -96,8 +98,8 @@ class App extends Component {
   }
 
   botSelect (playerWeapon) {
-    const WEAPONS = ['rock', 'paper', 'scissors']
-    let randomNumber = () => Math.floor(Math.random() * 3)
+    const WEAPONS = ['rock', 'paper', 'scissors', 'lizard', 'spock']
+    let randomNumber = () => Math.floor(Math.random() * 5)
     let botWeapon = WEAPONS[randomNumber()]
 
     // Determine the bots weapon of choice and then animate element accordingly
@@ -105,6 +107,8 @@ class App extends Component {
       const ROCK = document.getElementById('rockDiv')
       const PAPER = document.getElementById('paperDiv')
       const SCISSORS = document.getElementById('scissorsDiv')
+      const LIZARD = document.getElementById('lizardDiv')
+      const SPOCK = document.getElementById('spockDiv')
       const WEAPON_BOX = document.getElementById('weaponBox')
       const MAGNET = new Howl({src: [magnetMP3]})
 
@@ -120,6 +124,12 @@ class App extends Component {
       }
       if (botWeapon === 'scissors') {
         botSelectAnimate(SCISSORS)
+      }
+      if (botWeapon === 'lizard') {
+        botSelectAnimate(LIZARD)
+      }
+      if (botWeapon === 'spock') {
+        botSelectAnimate(SPOCK)
       }
 
       function botSelectAnimate (weapon) {
@@ -162,6 +172,14 @@ class App extends Component {
       this.setState({result: `Bot chose ${botWeapon}, You Win`})
       this.setState({playerScore: this.state.playerScore + 1})
       playWin()
+    } else if (playerWeapon === 'rock' && botWeapon === 'lizard') {
+      this.setState({result: `Bot chose ${botWeapon}, You Win`})
+      this.setState({playerScore: this.state.playerScore + 1})
+      playWin()
+    } else if (playerWeapon === 'rock' && botWeapon === 'spock') {
+      this.setState({result: `Bot chose ${botWeapon}, You Lose`})
+      this.setState({botScore: this.state.botScore + 1})
+      playLoose()
     } else if (playerWeapon === 'paper' && botWeapon === 'rock') {
       this.setState({result: `Bot chose ${botWeapon}, You Win`})
       this.setState({playerScore: this.state.playerScore + 1})
@@ -170,6 +188,14 @@ class App extends Component {
       this.setState({result: `Bot chose ${botWeapon}, You Lose`})
       this.setState({botScore: this.state.botScore + 1})
       playLoose()
+    } else if (playerWeapon === 'paper' && botWeapon === 'lizard') {
+      this.setState({result: `Bot chose ${botWeapon}, You Lose`})
+      this.setState({botScore: this.state.botScore + 1})
+      playLoose()
+    } else if (playerWeapon === 'paper' && botWeapon === 'spock') {
+      this.setState({result: `Bot chose ${botWeapon}, You Win`})
+      this.setState({playerScore: this.state.playerScore + 1})
+      playWin()
     } else if (playerWeapon === 'scissors' && botWeapon === 'rock') {
       this.setState({result: `Bot chose ${botWeapon}, You Lose`})
       this.setState({botScore: this.state.botScore + 1})
@@ -178,6 +204,46 @@ class App extends Component {
       this.setState({result: `Bot chose ${botWeapon}, You Win`})
       this.setState({playerScore: this.state.playerScore + 1})
       playWin()
+    } else if (playerWeapon === 'scissors' && botWeapon === 'lizard') {
+      this.setState({result: `Bot chose ${botWeapon}, You Win`})
+      this.setState({playerScore: this.state.playerScore + 1})
+      playWin()
+    } else if (playerWeapon === 'scissors' && botWeapon === 'spock') {
+      this.setState({result: `Bot chose ${botWeapon}, You Lose`})
+      this.setState({botScore: this.state.botScore + 1})
+      playLoose()
+    } else if (playerWeapon === 'lizard' && botWeapon === 'rock') {
+      this.setState({result: `Bot chose ${botWeapon}, You Lose`})
+      this.setState({botScore: this.state.botScore + 1})
+      playLoose()
+    } else if (playerWeapon === 'lizard' && botWeapon === 'paper') {
+      this.setState({result: `Bot chose ${botWeapon}, You Win`})
+      this.setState({playerScore: this.state.playerScore + 1})
+      playWin()
+    } else if (playerWeapon === 'lizard' && botWeapon === 'scissors') {
+      this.setState({result: `Bot chose ${botWeapon}, You Lose`})
+      this.setState({botScore: this.state.botScore + 1})
+      playLoose()
+    } else if (playerWeapon === 'lizard' && botWeapon === 'spock') {
+      this.setState({result: `Bot chose ${botWeapon}, You Win`})
+      this.setState({playerScore: this.state.playerScore + 1})
+      playWin()
+    } else if (playerWeapon === 'spock' && botWeapon === 'rock') {
+      this.setState({result: `Bot chose ${botWeapon}, You Win`})
+      this.setState({playerScore: this.state.playerScore + 1})
+      playWin()
+    } else if (playerWeapon === 'spock' && botWeapon === 'paper') {
+      this.setState({result: `Bot chose ${botWeapon}, You Lose`})
+      this.setState({botScore: this.state.botScore + 1})
+      playLoose()
+    } else if (playerWeapon === 'spock' && botWeapon === 'scissors') {
+      this.setState({result: `Bot chose ${botWeapon}, You Win`})
+      this.setState({playerScore: this.state.playerScore + 1})
+      playWin()
+    } else if (playerWeapon === 'spock' && botWeapon === 'lizard') {
+      this.setState({result: `Bot chose ${botWeapon}, You Lose`})
+      this.setState({botScore: this.state.botScore + 1})
+      playLoose()
     }
   }
 

@@ -23,6 +23,18 @@ const Weapons = ({handleSelect}) => {
         </a>
         <p className='App-weapon-label'>SCISSORS</p>
       </div>
+      <div id='lizardDiv' className='App-weapon'>
+        <a href='#' onClick={handleSelect}>
+          <i id='lizard' className='icon-scissors' />
+        </a>
+        <p className='App-weapon-label'>LIZARD</p>
+      </div>
+      <div id='spockDiv' className='App-weapon'>
+        <a href='#' onClick={handleSelect}>
+          <i id='spock' className='icon-scissors' />
+        </a>
+        <p className='App-weapon-label'>SPOCK</p>
+      </div>
     </div>
   )
 }

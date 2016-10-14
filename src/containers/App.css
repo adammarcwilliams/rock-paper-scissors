@@ -125,6 +125,13 @@
     left: 102px;
     transform: rotate(-90deg);
   }
+  #lizardDiv {
+    visibility: hidden;
+  }
+
+  #spockDiv {
+    visibility: hidden;
+  }
 }
 
 @media screen and (min-width: 406px) {
